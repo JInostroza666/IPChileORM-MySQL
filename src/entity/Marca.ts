@@ -1,12 +1,13 @@
 import { IsEmail, IsNotEmpty } from "class-validator"
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToMany, ManyToOne, JoinColumn } from "typeorm"
+import { Empleado } from "./Empleado"
 
 @Entity()
 export class Marca {
 
     @PrimaryGeneratedColumn()
     @IsNotEmpty()
-    Codigo_Marca: string
+    Codigo_Marca: number
 
     @Column()
     @IsNotEmpty()
@@ -38,5 +39,11 @@ export class Marca {
     @Column()
     @IsNotEmpty()
     Descarga: string
+
+   @ManyToOne(() => Empleado, (empleado) => empleado.marca, {
+        onDelete:"CASCADE"
+    })
+    @JoinColumn( { name: 'Rut_Empleado' } )
+    empleado:Empleado
 
 }

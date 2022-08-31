@@ -1,5 +1,8 @@
 import { IsEmail, IsNotEmpty } from "class-validator"
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToOne, JoinColumn, OneToMany } from "typeorm"
+import { Comuna } from "./Comuna"
+import { Marca } from "./Marca"
+import { Sucursal } from "./Sucursal"
 
 @Entity()
 export class Empleado {
@@ -10,11 +13,11 @@ export class Empleado {
 
     @Column()
     @IsNotEmpty()
-    Codigo_Comuna: string
+    Codigo_Comuna: number
 
     @Column()
     @IsNotEmpty()
-    Codigo_Sucursal: string
+    Codigo_Sucursal: number
 
     @Column()
     @IsNotEmpty()
@@ -30,7 +33,6 @@ export class Empleado {
 
     @Column()
     @IsNotEmpty()
-    @IsEmail()
     Telefono_Empleado: number
 
     @Column()
@@ -57,5 +59,23 @@ export class Empleado {
     @Column()
     @IsNotEmpty()
     Privilegio: string
+
+    @ManyToOne(() => Sucursal, (sucursal) => sucursal.empleado, {
+        onDelete:"CASCADE"
+    })
+    @JoinColumn( { name: 'Codigo_Sucursal' } )
+    sucursal:Sucursal
+
+    @ManyToOne(() => Comuna, (comuna) => comuna.empleado, {
+        onDelete:"CASCADE"
+    })
+    @JoinColumn( { name: 'Codigo_Comuna' } )
+    comuna:Comuna
+
+    @OneToMany(() => Marca, (marca) => marca.empleado, {
+        onDelete:"CASCADE"
+    })
+    marca:Marca[]
+    empleado:Empleado
 
 }

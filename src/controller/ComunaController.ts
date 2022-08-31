@@ -9,7 +9,7 @@ export class ComunaController {
 
         const { Codigo_Comuna, Codigo_Ciudad, Nombre_Comuna} = req.body
         const comuna = new Comuna();
-        comuna.Codigo_Comuna=Codigo_Comuna
+        comuna.Codigo_Comuna=Codigo_Comuna;
         comuna.Codigo_Ciudad=Codigo_Ciudad;
         comuna.Nombre_Comuna=Nombre_Comuna;
         const validationOpt={
