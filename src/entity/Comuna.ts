@@ -9,7 +9,6 @@ import { Sucursal } from "./Sucursal"
 export class Comuna {
 
     @PrimaryGeneratedColumn()
-    @IsNotEmpty()
     Codigo_Comuna: number
 
     @Column()

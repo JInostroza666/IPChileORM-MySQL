@@ -3,12 +3,12 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { Comuna } from "./Comuna"
 import { Marca } from "./Marca"
 import { Sucursal } from "./Sucursal"
+import * as bcrypt from 'bcryptjs'
 
 @Entity()
 export class Empleado {
 
     @PrimaryGeneratedColumn()
-    @IsNotEmpty()
     Rut_Empleado: string
 
     @Column()
@@ -77,5 +77,13 @@ export class Empleado {
     })
     marca:Marca[]
     empleado:Empleado
+
+    hashPassword():void{
+        const salt=bcrypt.genSaltSync(12);
+        this.Clave=bcrypt.hashSync(this.Clave,salt)
+    }
+    checkPassword(Clave:string):boolean{
+        return bcrypt.compareSync(Clave,this.Clave)
+    }
 
 }

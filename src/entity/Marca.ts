@@ -6,7 +6,6 @@ import { Empleado } from "./Empleado"
 export class Marca {
 
     @PrimaryGeneratedColumn()
-    @IsNotEmpty()
     Codigo_Marca: number
 
     @Column()

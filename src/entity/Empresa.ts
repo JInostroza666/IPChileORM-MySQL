@@ -9,7 +9,6 @@ import { Sucursal } from "./Sucursal"
 export class Empresa {
 
     @PrimaryGeneratedColumn()
-    @IsNotEmpty()
     Codigo_Empresa: number
 
     @Column()

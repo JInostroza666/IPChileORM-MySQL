@@ -33,10 +33,11 @@ export class EmpleadoController {
         }
         const empleadoRepository = AppDataSource.getRepository(Empleado);
         try {
-            await empleadoRepository.save(empleado);
+            empleado.hashPassword();
+            await empleadoRepository.save(empleado)
         } catch (error) {
             return res.status(500).json({
-                message: "Error creating empleado!",
+                message: "Error creating empleado",
                 error: error.message
             })
         }

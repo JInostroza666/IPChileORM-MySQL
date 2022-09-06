@@ -1,6 +1,4 @@
 import { Request, Response, Router } from "express";
-import { UserController } from "../controller/UserController";
-import { checkJwt } from "../middleware/jwt";
 import { Empresa } from "../entity/Empresa";
 import { validate } from "class-validator";
 import { AppDataSource } from "../data-source";

@@ -7,7 +7,6 @@ import { Region } from "./Region"
 export class Ciudad {
 
     @PrimaryGeneratedColumn()
-    @IsNotEmpty()
     Codigo_Ciudad: number
 
     @Column()
