@@ -8,15 +8,15 @@ import { Empresa } from "./Empresa"
 export class Sucursal {
 
     @PrimaryGeneratedColumn()
-    Codigo_Sucursal: number
+    Codigo_Sucursal: string
 
     @Column()
     @IsNotEmpty()
-    Codigo_Empresa: number
+    Codigo_Empresa: string
 
     @Column()
     @IsNotEmpty()
-    Codigo_Comuna: number
+    Codigo_Comuna: string
 
     @Column()
     @IsNotEmpty()
@@ -47,6 +47,7 @@ export class Sucursal {
     comuna:Comuna
 
     @OneToMany(() => Empleado, (empleado) => empleado.sucursal, {
+        cascade: true,
         onDelete:"CASCADE"
     })
     empleado:Empleado[]

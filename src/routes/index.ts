@@ -18,6 +18,6 @@ routes.use('/empresa', empresa)
 routes.use('/sucursal', sucursal)
 routes.use('/empleado', empleado)
 routes.use('/auth', auth)
-routes.use('/marcas', marca)
+routes.use('/marca', marca)
 
 export default routes;

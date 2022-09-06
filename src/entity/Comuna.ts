@@ -9,11 +9,11 @@ import { Sucursal } from "./Sucursal"
 export class Comuna {
 
     @PrimaryGeneratedColumn()
-    Codigo_Comuna: number
+    Codigo_Comuna: string
 
     @Column()
     @IsNotEmpty()
-    Codigo_Ciudad: number
+    Codigo_Ciudad: string
 
     @Column()
     @IsNotEmpty()
@@ -26,18 +26,21 @@ export class Comuna {
     ciudad:Ciudad
 
     @OneToMany(() => Empresa, (empresa) => empresa.comuna, {
+        cascade: true,
         onDelete:"CASCADE"
     })
     empresa:Empresa[]
     comuna:Comuna
 
     @OneToMany(() => Sucursal, (sucursal) => sucursal.comuna, {
+        cascade: true,
         onDelete:"CASCADE"
     })
     sucursal:Sucursal[]
     comuna2:Comuna
 
     @OneToMany(() => Empleado, (empleado) => empleado.comuna, {
+        cascade: true,
         onDelete:"CASCADE"
     })
     empleado:Empleado[]

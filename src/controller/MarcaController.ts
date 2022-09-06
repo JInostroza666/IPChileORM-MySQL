@@ -56,4 +56,85 @@ export class MarcaController {
             return res.status(404).json({ message: "Not result" });
         }
 
+        static getByCodigoMarca = async (req: Request, res: Response) => {
+            const { Codigo_Marca } = req.params
+            const marcaRepository = AppDataSource.getRepository(Marca)
+            
+            try {
+                const marca = await marcaRepository.findOneByOrFail({Codigo_Marca})
+                res.send(marca)
+            } catch (error) {
+                res.status(404).json({
+                    message: "Marca not found",
+                    error: error.message,
+                })
+            }
+        }
+    
+        static delete = async (req: Request, res: Response) => {
+            const { Codigo_Marca } = req.params;
+            const marcaRepository = AppDataSource.getRepository(Marca)
+            let marca: Marca;
+            try {
+                marca = await marcaRepository.findOneByOrFail({ Codigo_Marca})
+            } catch (error) {
+                return res.status(404).json({
+                    message: "User not found",
+                    error: error.message
+                })
+            }
+            try {
+                await marcaRepository.delete(marca.Codigo_Marca);
+                res.status(200).json({
+                    message: "Marca deleted"
+                })
+            } catch (error) {
+                res.status(500).json({
+                    message: "Error deleting marca",
+                    error: error.message
+                })
+            }
+        }
+    
+        static update = async (req: Request, res: Response) => {
+            let marca;
+            const { Codigo_Marca } = req.params;
+            const { Rut_Empleado, Fecha, Tipo, Hash, Latitud, 
+            Longitud, Correo_Enviado, Descarga } = req.body
+            const marcaRepository = AppDataSource.getRepository(Marca)
+            try {
+                marca = await marcaRepository.findOneByOrFail({ Codigo_Marca})
+                marca.Tipo = Tipo;
+                marca.Hash = Hash;
+                marca.Latitud = Latitud;
+                marca.Longitud = Longitud;
+                marca.Correo_Enviado = Correo_Enviado;
+                marca.Descarga = Descarga;
+            } catch (error) {
+                return res.status(404).json({
+                    message: "Marca not found",
+                    error: error.message
+                })
+            }
+    
+            const validationOpt = { validationError: { target: false, value: false } }
+            const errors = await validate(marca, validationOpt)
+            if (errors.length > 0) {
+                return res.status(400).send(errors)
+            }
+            try {
+                await marcaRepository.save(marca)
+            } catch (error) {
+                res.status(500).json({
+                    message: "Error updating marca",
+                    error: error.message
+                })
+            }
+            res.status(204).json({
+                message: "Marca updated"
+            })
+    
+    
+        }    
+
 }   

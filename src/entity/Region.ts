@@ -6,13 +6,14 @@ import { Ciudad } from "./Ciudad"
 export class Region {
 
     @PrimaryGeneratedColumn()
-    Codigo_Region: number
+    Codigo_Region: string
     
     @Column()
     @IsNotEmpty()
     Nombre_Region: string
 
     @OneToMany(() => Ciudad, (ciudad) => ciudad.region, {
+        cascade: true,
         onDelete:"CASCADE"
     })
     ciudad:Ciudad[]

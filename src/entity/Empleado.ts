@@ -13,11 +13,11 @@ export class Empleado {
 
     @Column()
     @IsNotEmpty()
-    Codigo_Comuna: number
+    Codigo_Comuna: string
 
     @Column()
     @IsNotEmpty()
-    Codigo_Sucursal: number
+    Codigo_Sucursal: string
 
     @Column()
     @IsNotEmpty()
@@ -73,6 +73,7 @@ export class Empleado {
     comuna:Comuna
 
     @OneToMany(() => Marca, (marca) => marca.empleado, {
+        cascade: true,
         onDelete:"CASCADE"
     })
     marca:Marca[]

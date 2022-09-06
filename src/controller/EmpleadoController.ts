@@ -68,4 +68,90 @@ export class EmpleadoController {
 
     }
 
+    static getByRut = async (req: Request, res: Response) => {
+        const { Rut_Empleado } = req.params
+        const empleadoRepository = AppDataSource.getRepository(Empleado)
+        try {
+            const empleado = await empleadoRepository.findOneByOrFail({ Rut_Empleado})
+            res.send(empleado)
+        } catch (error) {
+            res.status(404).json({
+                message: "User not found",
+                error: error.message
+            })
+        }
+    }
+
+    static delete = async (req: Request, res: Response) => {
+        const { Rut_Empleado } = req.params;
+        const empleadoRepository = AppDataSource.getRepository(Empleado)
+        let empleado : Empleado;
+        try {
+            empleado = await empleadoRepository.findOneByOrFail({ Rut_Empleado })
+        } catch (error) {
+            return res.status(404).json({
+                message: "User not found",
+                error: error.message
+            })
+        }
+        try {
+            await empleadoRepository.delete(empleado.Rut_Empleado);
+            res.status(200).json({
+                message: "Empleado deleted"
+            })
+        } catch (error) {
+            res.status(500).json({
+                message: "Error deleting user"+Rut_Empleado,
+                error: error.message,
+            })
+        }
+    }
+
+    static update = async (req: Request, res: Response) => {
+        let empleado;
+        const { Rut_Empleado } = req.params;
+        const { Codigo_Comuna, Codigo_Sucursal, Nombres, Apellido_Paterno, Apellido_Materno,
+            Telefono_Empleado, Cargo, Email_Empleado, Direccion_Empleado, Estado, Clave, Privilegio } = req.body;
+        const empleadoRepository = AppDataSource.getRepository(Empleado)
+        try {
+            empleado = await empleadoRepository.findOneByOrFail({ Rut_Empleado })
+            empleado.Codigo_Comuna = Codigo_Comuna;
+            empleado.Codigo_Sucursal = Codigo_Sucursal;
+            empleado.Nombres = Nombres;
+            empleado.Apellido_Paterno = Apellido_Paterno;
+            empleado.Apellido_Materno = Apellido_Materno;
+            empleado.Telefono_Empleado = Telefono_Empleado;
+            empleado.Cargo = Cargo;
+            empleado.Email_Empleado = Email_Empleado;
+            empleado.Direccion_Empleado = Direccion_Empleado;
+            empleado.Estado = Estado;
+            empleado.Clave = Clave;
+            empleado.Privilegio = Privilegio;
+        } catch (error) {
+            return res.status(404).json({
+                message: "Empleado not found",
+                error: error.message
+            })
+        }
+
+        const validationOpt = { validationError: { target: false, value: false } }
+        const errors = await validate(empleado, validationOpt)
+        if (errors.length > 0) {
+            return res.status(400).send(errors)
+        }
+        try {
+            await empleadoRepository.save(empleado)
+        } catch (error) {
+            res.status(500).json({
+                message: "Error updating empleado",
+                error: error.message
+            })
+        }
+        res.status(204).json({
+            message: "Empleado updated"
+        })
+
+
+    }
+
 }

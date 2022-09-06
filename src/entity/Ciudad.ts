@@ -7,23 +7,23 @@ import { Region } from "./Region"
 export class Ciudad {
 
     @PrimaryGeneratedColumn()
-    Codigo_Ciudad: number
+    Codigo_Ciudad: string
 
     @Column()
     @IsNotEmpty()
-    Codigo_Region: number
+    Codigo_Region: string
 
     @Column()
     @IsNotEmpty()
     Nombre_Ciudad: string
 
     @ManyToOne(() => Region, (region) => region.ciudad, {
-        onDelete:"CASCADE"
     })
     @JoinColumn( { name: 'Codigo_Region' } )
     region:Region
 
     @OneToMany(() => Comuna, (comuna) => comuna.ciudad, {
+        cascade: true,
         onDelete:"CASCADE"
     })
     comuna:Comuna[]

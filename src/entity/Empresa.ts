@@ -9,11 +9,11 @@ import { Sucursal } from "./Sucursal"
 export class Empresa {
 
     @PrimaryGeneratedColumn()
-    Codigo_Empresa: number
+    Codigo_Empresa: string
 
     @Column()
     @IsNotEmpty()
-    Codigo_Comuna: number
+    Codigo_Comuna: string
 
     @Column()
     @IsNotEmpty()
