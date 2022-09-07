@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty } from "class-validator"
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToOne, JoinColumn, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToOne, JoinColumn, OneToMany, ManyToMany, JoinTable } from "typeorm"
 import { Comuna } from "./Comuna"
 import { Empleado } from "./Empleado"
 import { Empresa } from "./Empresa"
@@ -46,11 +46,10 @@ export class Sucursal {
     @JoinColumn( { name: 'Codigo_Comuna' } )
     comuna:Comuna
 
-    @OneToMany(() => Empleado, (empleado) => empleado.sucursal, {
-        cascade: true,
+    @ManyToMany(() => Empleado, (empleado) => empleado.Rut_Empleado, {
         onDelete:"CASCADE"
     })
-    empleado:Empleado[]
-    sucursal:Sucursal
+    @JoinTable()
+    empleados:Empleado[];
 
 }

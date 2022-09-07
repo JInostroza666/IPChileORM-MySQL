@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty } from "class-validator"
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToOne, JoinColumn, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique, ManyToOne, JoinColumn, OneToMany, ManyToMany, JoinTable } from "typeorm"
 import { Comuna } from "./Comuna"
 import { Marca } from "./Marca"
 import { Sucursal } from "./Sucursal"
@@ -60,11 +60,10 @@ export class Empleado {
     @IsNotEmpty()
     Privilegio: string
 
-    @ManyToOne(() => Sucursal, (sucursal) => sucursal.empleado, {
+    @ManyToMany(() => Sucursal, (sucursal) => sucursal.Codigo_Sucursal,{
         onDelete:"CASCADE"
     })
-    @JoinColumn( { name: 'Codigo_Sucursal' } )
-    sucursal:Sucursal
+    sucursales : Sucursal[]
 
     @ManyToOne(() => Comuna, (comuna) => comuna.empleado, {
         onDelete:"CASCADE"

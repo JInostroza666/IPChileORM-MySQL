@@ -72,7 +72,7 @@ export class EmpleadoController {
         const { Rut_Empleado } = req.params
         const empleadoRepository = AppDataSource.getRepository(Empleado)
         try {
-            const empleado = await empleadoRepository.findOneByOrFail({ Rut_Empleado})
+            const empleado = await empleadoRepository.findOneByOrFail({Rut_Empleado})
             res.send(empleado)
         } catch (error) {
             res.status(404).json({
